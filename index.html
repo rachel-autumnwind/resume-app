@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>翁露婷 - 个人简历</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            background-color: #ffffff;
+            /* 增加极淡的蓝色顶部微光 */
+            background-image: radial-gradient(circle at 50% -20%, #eff6ff 0%, #ffffff 50%);
+            color: #1e293b;
+            scroll-behavior: smooth;
+        }
+        @media print {
+            .no-print { display: none !important; }
+            body { background: white !important; padding: 0; margin: 0; }
+            .resume-container { box-shadow: none !important; width: 100% !important; max-width: none !important; padding: 0 !important; }
+            .prose { max-width: none !important; }
+        }
+        /* Typography */
+        .prose h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1.5rem; letter-spacing: -0.05em; color: #0f172a; }
+        .prose h2 { 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            margin-top: 3.5rem; 
+            margin-bottom: 1.5rem; 
+            color: #1e3a8a; 
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        /* H2 下方的蓝色渐变条 */
+        .prose h2::after {
+            content: "";
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(to right, #dbeafe, transparent);
+        }
+        .prose h3 { font-size: 1.25rem; font-weight: 700; margin-top: 2.5rem; margin-bottom: 1rem; color: #334155; }
+        .prose h4 { font-size: 1.05rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; color: #2563eb; }
+        .prose p { line-height: 1.8; color: #475569; margin-bottom: 1.25rem; }
+        
+        /* Lists with Blue Accents */
+        .prose ul { list-style-type: none; padding-left: 0; margin-bottom: 1.5rem; }
+        .prose li { position: relative; padding-left: 1.5rem; margin-bottom: 0.5rem; color: #475569; font-size: 0.95rem; }
+        .prose li::before { 
+            content: ""; 
+            position: absolute; 
+            left: 0.25rem; 
+            top: 0.6rem;
+            width: 6px;
+            height: 6px;
+            background-color: #3b82f6; 
+            border-radius: 2px;
+            transform: rotate(45deg);
+        }
+        
+        /* Links */
+        .prose a { 
+            color: #2563eb; 
+            text-decoration: none; 
+            font-weight: 500;
+            border-bottom: 1px solid #dbeafe; 
+            transition: all 0.2s; 
+        }
+        .prose a:hover { 
+            background-color: #eff6ff;
+            border-bottom-color: #2563eb; 
+        }
+
+        /* Enhanced Tables */
+        .prose table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 2rem 0; font-size: 0.9rem; border-radius: 12px; overflow: hidden; border: 1px solid #f1f5f9; }
+        .prose th { background: #f8fafc; text-align: left; padding: 1rem 1.25rem; border-bottom: 1px solid #f1f5f9; font-weight: 700; color: #1e40af; }
+        .prose td { padding: 1rem 1.25rem; border-bottom: 1px solid #f1f5f9; color: #64748b; line-height: 1.6; }
+        .prose tr:last-child td { border-bottom: none; }
+        .prose tr:hover td { background-color: #f8fafc; }
+        
+        /* HR */
+        .prose hr { border: 0; border-top: 1px solid #eff6ff; margin: 4rem 0; position: relative; overflow: visible; }
+        .prose hr::after {
+            content: "✦";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 0 1rem;
+            color: #bfdbfe;
+            font-size: 0.75rem;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f8fafc; }
+        ::-webkit-scrollbar-thumb { background: #dbeafe; border-radius: 10px; border: 2px solid #f8fafc; }
+        ::-webkit-scrollbar-thumb:hover { background: #bfdbfe; }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "framer-motion": "https://esm.sh/framer-motion@^12.29.2",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "marked": "https://esm.sh/marked@^17.0.1"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="selection:bg-blue-50 selection:text-blue-900">
+    <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
