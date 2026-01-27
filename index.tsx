@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { createRoot } from 'react-dom/client';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
 import {
   Edit3,
   Download,
@@ -9,10 +9,85 @@ import {
   User,
   Briefcase,
   Code2,
-  Sparkles
+  Sparkles,
+  ChevronDown
 } from 'lucide-react';
 import { marked } from 'marked';
 import './index.css';
+
+// Floating particles component
+const FloatingParticles = () => {
+  const particles = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    size: Math.random() * 4 + 2,
+    x: Math.random() * 100,
+    y: Math.random() * 100,
+    duration: Math.random() * 20 + 15,
+    delay: Math.random() * 5,
+  }));
+
+  return (
+    <div className="fixed inset-0 pointer-events-none overflow-hidden no-print">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full bg-blue-400/20"
+          style={{
+            width: p.size,
+            height: p.size,
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+          }}
+          animate={{
+            y: [0, -30, 0],
+            x: [0, 15, 0],
+            opacity: [0.2, 0.5, 0.2],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: p.duration,
+            delay: p.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </div>
+  );
+};
+
+// Animated background gradient
+const AnimatedBackground = () => {
+  return (
+    <div className="fixed inset-0 -z-10 no-print">
+      <motion.div
+        className="absolute inset-0"
+        animate={{
+          background: [
+            'radial-gradient(circle at 20% 20%, rgba(219, 234, 254, 0.4) 0%, transparent 50%)',
+            'radial-gradient(circle at 80% 80%, rgba(219, 234, 254, 0.4) 0%, transparent 50%)',
+            'radial-gradient(circle at 50% 50%, rgba(219, 234, 254, 0.4) 0%, transparent 50%)',
+            'radial-gradient(circle at 20% 20%, rgba(219, 234, 254, 0.4) 0%, transparent 50%)',
+          ],
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+      />
+    </div>
+  );
+};
+
+// Scroll progress indicator
+const ScrollProgress = () => {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+
+  return (
+    <motion.div
+      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-600 via-blue-400 to-blue-600 origin-left z-50 no-print"
+      style={{ scaleX }}
+    />
+  );
+};
 
 // Default resume content in Markdown
 const DEFAULT_MD = `# 翁露婷 - 前端开发工程师
@@ -38,7 +113,7 @@ const DEFAULT_MD = `# 翁露婷 - 前端开发工程师
 
 - 具备团队协作与管理视野：曾任前端小组组长，熟悉敏捷开发流程，能够协调跨部门资源，确保高质量的代码交付与项目里程碑达成。
 
-- 熟练使用**Cursor**、**claude Code** 协作开发。
+- 熟练使用**Cursor**、**Claude Code** 协作开发。
 
 ---
 
@@ -70,11 +145,11 @@ const DEFAULT_MD = `# 翁露婷 - 前端开发工程师
   - 集成 **Credit 积分系统**，实现预扣费与余额校验逻辑
   - 开发 **AI Logo 生成**功能
 
-#### 3. Shopify 客户对接与 API 接入（10+ 客户）
+#### 3. Shopify 客户对接与 API 接入（10+ 海外客户）
 
 - 使用 **Liquid 模板语言**开发自定义主题组件，实现产品页面定制器嵌入
 - 处理购物车与结账流程的定制需求
-- 全程对接海外客户（英语沟通），提供技术支持，解决兼容性与逻辑问题。
+- 全程对接海外客户（**英语**沟通），提供技术支持，解决兼容性与逻辑问题。
 
 #### 4. UI 组件库与工程化建设（@pacdora/ui）
 
@@ -133,10 +208,20 @@ const DEFAULT_MD = `# 翁露婷 - 前端开发工程师
 const App = () => {
   const [md, setMd] = useState(localStorage.getItem('resume_md') || DEFAULT_MD);
   const [isEditing, setIsEditing] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const { scrollY } = useScroll();
+
+  // Parallax effect for header
+  const headerY = useTransform(scrollY, [0, 300], [0, -50]);
+  const headerOpacity = useTransform(scrollY, [0, 300], [1, 0.3]);
 
   useEffect(() => {
     localStorage.setItem('resume_md', md);
   }, [md]);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   // Enhanced Section Parser
   const sections = useMemo(() => {
@@ -179,24 +264,33 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen pb-20">
+    <div className="min-h-screen pb-20 relative">
+      <AnimatedBackground />
+      <FloatingParticles />
+      <ScrollProgress />
+
       {/* Floating Controls */}
       <div className="fixed bottom-8 right-8 flex flex-col gap-4 no-print z-50">
         <motion.button
-          whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(59, 130, 246, 0.4)" }}
-          whileTap={{ scale: 0.9 }}
-          onClick={() => setIsEditing(!isEditing)}
-          className="w-14 h-14 bg-blue-600 text-white rounded-full shadow-xl flex items-center justify-center transition-colors hover:bg-blue-700"
-        >
-          {isEditing ? <Save size={22} /> : <Edit3 size={22} />}
-        </motion.button>
-        <motion.button
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          initial={{ scale: 0, rotate: -180 }}
+          animate={{ scale: 1, rotate: 0 }}
+          transition={{ delay: 1, type: "spring", stiffness: 200 }}
+          whileHover={{
+            scale: 1.15,
+            boxShadow: "0 0 25px rgba(59, 130, 246, 0.5)",
+            rotate: 5
+          }}
+          whileTap={{ scale: 0.95, rotate: -5 }}
           onClick={handlePrint}
-          className="w-14 h-14 bg-white text-slate-600 border border-blue-50 rounded-full shadow-lg flex items-center justify-center hover:bg-blue-50 transition-colors"
+          className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-full shadow-xl flex items-center justify-center transition-all relative overflow-hidden group"
         >
-          <Download size={22} />
+          <motion.div
+            className="absolute inset-0 bg-white"
+            initial={{ scale: 0, opacity: 0 }}
+            whileHover={{ scale: 2, opacity: 0.2 }}
+            transition={{ duration: 0.4 }}
+          />
+          <Download size={22} className="relative z-10" />
         </motion.button>
       </div>
 
@@ -247,33 +341,74 @@ const App = () => {
       </AnimatePresence>
 
       {/* Resume View */}
-      <div className="max-w-4xl mx-auto px-8 py-16 md:py-24">
+      <motion.div
+        className="max-w-4xl mx-auto px-8 py-16 md:py-24 relative"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isLoaded ? 1 : 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        {/* Scroll indicator */}
+        <motion.div
+          className="absolute top-8 left-1/2 -translate-x-1/2 no-print"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.5, duration: 0.8 }}
+        >
+          <motion.div
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="flex flex-col items-center gap-2 text-blue-400"
+          >
+            <ChevronDown size={20} />
+          </motion.div>
+        </motion.div>
+
         <div className="resume-container prose prose-slate max-w-none">
           {sections.map((section, index) => (
             <motion.div
               key={section.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ 
-                duration: 0.8, 
-                delay: Math.min(index * 0.08, 0.4),
-                ease: [0.21, 0.47, 0.32, 0.98] 
+              initial={{ opacity: 0, y: 50, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{
+                duration: 0.7,
+                delay: Math.min(index * 0.1, 0.5),
+                ease: [0.25, 0.46, 0.45, 0.94]
               }}
-              dangerouslySetInnerHTML={{ __html: section.content }}
-            />
+              whileHover={{
+                scale: 1.01,
+                transition: { duration: 0.2 }
+              }}
+              className="relative group"
+            >
+              {/* Hover glow effect */}
+              <motion.div
+                className="absolute -inset-4 bg-gradient-to-r from-blue-50/0 via-blue-50/50 to-blue-50/0 rounded-2xl -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                initial={false}
+              />
+              <div dangerouslySetInnerHTML={{ __html: section.content }} />
+            </motion.div>
           ))}
         </div>
 
-        <footer className="mt-24 pt-10 border-t border-blue-50 text-center no-print">
-          <p className="text-blue-200 text-[10px] tracking-[0.3em] uppercase font-bold">
+        <motion.footer
+          className="mt-24 pt-10 border-t border-blue-50 text-center no-print"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+        >
+          <motion.p
+            className="text-blue-200 text-[10px] tracking-[0.3em] uppercase font-bold"
+            animate={{
+              opacity: [0.5, 1, 0.5],
+            }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+          >
             Innovation & Professionalism · Weng Luting
-          </p>
-        </footer>
-      </div>
-
-      {/* Aesthetic Top Border */}
-      <div className="fixed top-0 left-0 w-full h-1.5 bg-gradient-to-right from-blue-600 via-blue-400 to-transparent no-print opacity-50" />
+          </motion.p>
+        </motion.footer>
+      </motion.div>
     </div>
   );
 };
