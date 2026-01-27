@@ -114,7 +114,6 @@ const DEFAULT_MD = `# 翁露婷 - 前端开发工程师
 - 具备团队协作与管理视野：曾任前端小组组长，熟悉敏捷开发流程，能够协调跨部门资源，确保高质量的代码交付与项目里程碑达成。
 
 - 熟练使用**Cursor**、**Claude Code** 协作开发。
-
 ---
 
 ## 工作经历
@@ -125,88 +124,146 @@ const DEFAULT_MD = `# 翁露婷 - 前端开发工程师
 
 #### 1. API SDK 产品及后台开发
 
-**API 示例地址**：[https://apidemo.pacdora.com](https://apidemo.pacdora.com/detail.html?modelId=100010)
+**API 示例地址**：https://apidemo.pacdora.com/detail.html?modelId=100010
 
 - 负责 **Pacdora-plus API SDK** 的前端架构设计与功能开发
-- 实现 **报价系统 (Quotation)**：支持自定义报价配置、数量同步、多位数精度
+- 实现 **报价系统 (Quotation)**：
+  - 变量和规则配置
+  - 产品模板管理
+  - 公式验证和计算
+- 开发各类 Pacdora 自定义组件，供客户写代码组装使用
 - **3d编辑器内容**：
-  - 开发 **自定义材质 (Custom Material)** 功能，支持客户上传自定义材料
-  - 实现 **字体管理系统**，支持自定义字体上传与选择
+
+  - 开发 修改 3d 模型的尺寸、材质、厚度
   - 支持 **多语言切换**与 HTML 语言属性配置
+  - 上传 PDF 文件转换成图片
+  - 开发 3d 模型水印功能
+  
+- **后台内容**：
+  - 搭建模型库管理系统，完成 3D 模型选择、分类、检索等功能
+  - 自定义配置api中的高级编辑器布局、功能
+  - 实现 **字体管理系统**，支持自定义字体上传与选择
+  
+- 通过接口缓存、限流优化，保障多客户并发调用稳定性
 
 #### 2. AI 功能开发与落地
 
-**AI 功能地址**：[https://www.pacdora.com/ai-packaging-design](https://www.pacdora.com/ai-packaging-design)
+**AI 功能地址**：https://www.pacdora.com/ai-packaging-design
 
 - **AI Creation 智能设计模块**：
   - 设计并实现 **AI 图像生成**功能，支持文本到图像生成
-  - 开发 **图像重绘** 与 **智能擦除**功能
-  - 实现AI重绘/擦除：**笔刷工具、涂抹区域、缩放控制**
+  - 开发 **AI Creation** 生成各个面的设计元素
+  - 实现 **AI重绘/擦除**：笔刷工具、涂抹区域、缩放控制
   - 集成 **Credit 积分系统**，实现预扣费与余额校验逻辑
   - 开发 **AI Logo 生成**功能
 
+- **AI 包装设计对话系统**：
+  - 构建基于对话式交互的 AI 设计助手
+  - 实现 **ChatInput、ChatMessage、ChatImageBox** 等核心组件
+  - 设计 **聊天状态管理 (useAIChat store)**
+  - 优化用户引导流程与 **提示词 (Inspire Prompt)**
+
+- 开发官网落地页，适配多设备屏幕，结合环保主题设计模板，提升品牌展示与用户体验
+- 对接后端 AI 接口优化响应效率，保障生成流程稳定性
+
 #### 3. Shopify 客户对接与 API 接入（10+ 海外客户）
 
+**案例地址**：https://www.packhubs.com/collections/packaging/products/corrugated-mailer-box-advanced-editor-copy-1
+
+- 开发产品定制器，支持用户在 Shopify 店铺内完成包装设计
+- 集成 Pacdora API，实现设计数据与 Shopify 订单同步
 - 使用 **Liquid 模板语言**开发自定义主题组件，实现产品页面定制器嵌入
 - 处理购物车与结账流程的定制需求
-- 全程对接海外客户（**英语**沟通），提供技术支持，解决兼容性与逻辑问题。
+
+**客户项目**（提供定制化接入方案，开发 Shopify 专属插件）：
+
+- **ko-ma-tsu** ：拼板计算、高级编辑器
+- **Lookourway** ：尺寸/材质选择器、联系表单
+- **Heropack** ：订单管理、高级编辑器集成
+- 其他客户项目：kashimura-printing, buildabox 等
+
+全程对接海外客户（**英语**沟通），提供技术支持，解决兼容性与逻辑问题，为公司带来持续收入。
 
 #### 4. UI 组件库与工程化建设（@pacdora/ui）
 
 - 开发 **Color Picker 颜色选择器**组件，支持推荐颜色与自定义颜色
 - 实现 **Tooltip、PTooltip** 提示组件，支持插槽与鼠标跟随
 - 开发 **LazyImage 懒加载图片**组件，支持刷新与占位
+- 实现 **StyleInput、History** 等业务组件
 
 ---
 
 ### 浙江臻善科技股份有限公司 | 前端小组组长 | 2022.04 - 2024.06
 
-主导项目微前端架构设计与技术选型（Vite+Qiankun），通过自研组件库标准规范及团队管理。
+主导项目微前端架构设计与技术选型（Vite+Qiankun），通过自研组件库标准规范及团队管理，赋能 3 人团队实现研发效率与交付质量 30% 以上的提升。
 
-#### 1. 贵州农业农村数据中台（微前端架构）
-- 微前端实战：基于 Qiankun 实现 5 个子应用平滑接入。
-- 流程图自研：利用 Antv-G6 开发数据建模模块。
+#### 1.贵州农业农村数据中台（微前端架构）
 
-#### 2. 数据治理平台 / 数字智库中台
-- 复杂交互：基于 D3.js 自研字段映射组件。
-- 资产管理：封装高性能文件预览模块。
+- 微前端实战： 基于 Qiankun 实现 5 个子应用平滑接入，统一管理 Axios 拦截、环境配置及样式隔离。
+
+- 流程图自研： 利用 Antv-G6 / Vue-Flow 开发数据建模与血缘分析模块，实现节点拖拽布局、逻辑连线及状态感知等复杂交互。
+
+- 性能优化： 针对 Vite 进行首屏加载优化（分包策略、Gzip 等），首屏加载速度提升 30%；集成 Codemirror 实现 SQL 在线编辑。
+
+#### 2.数据治理平台 / 数字智库中台
+
+- 复杂交互： 基于 D3.js 自研字段映射组件（支持同行/同名自动映射）；利用 Websocket 实现任务运行日志的实时流式推送。
+
+- 资产管理： 封装高性能文件预览模块，支持 PDF、Doc、多媒体等全格式展示；通过 Iframe 状态同步技术解决多标签页切换的持久化问题。
+
+- 工程优化： 实施 Webpack 代码拆分与动图按需加载方案，显著降低低配机器下的系统卡顿率。
 
 ---
 
 ### 华卓信息科技有限公司 | 前端工程师 | 2021.07 - 2022.04
+
 - 开发医院 **CRM 系统**（Vue3 + TypeScript）
 - 智慧服务 H5（Vue2 + Vant）
+- 完成核心模块，保障项目上线迭代
+
 
 ---
 
 ### 杭州数政科技有限公司 | 前端实习生 | 2021.03 - 2021.06
+
 - 参与页面开发、接口联调与 Bug 修复，积累实战基础
+
+---
 
 ## 个人项目与技术研究
 
 ### AI Agent 智体大战（GitHub）
-- [GitHub 仓库](https://github.com/rachel-autumnwind?tab=repositories)
-- 基于 **LangChain + Vue3** 搭建，实现多 AI 智体交互可视化。
+
+- 地址：https://github.com/rachel-autumnwind?tab=repositories
+
+- 基于 **LangChain + Vue3** 搭建，实现多 AI 智体交互、协作场景可视化
+
+---
 
 ## 技术技能
 
-| 领域 | 技能 |
-| --- | --- |
-| 前端框架 | Vue2/Vue3 全家桶、Qiankun 微前端、Uniapp、TypeScript |
-| 工程化工具 | Vite、Webpack、Rollup、pnpm、Git、Nginx、Jenkins |
-| 电商开发 | Shopify、Liquid |
-| 后端/数据库 | Prisma、PostgreSQL |
-| AI 与拓展 | LangChain、大模型 API 集成、AI Agent 开发 |
+| 领域        | 技能                                                        |
+| ----------- | ----------------------------------------------------------- |
+| 前端框架    | Vue2/Vue3 全家桶、Qiankun 微前端、Uniapp、TypeScript      |
+| 工程化工具  | Vite、Webpack、Rollup、pnpm (Monorepo)、Git、Nginx、Jenkins |
+| 电商开发    | Shopify、Liquid                                             |
+| 后端/数据库 | Prisma、PostgreSQL                                          |
+| AI 与拓展   | LangChain、大模型 API 集成、AI Agent 开发                   |
+| 开发工具    | Cursor、Claude Code、VS Code                                |
+
+---
 
 ## 自我评价
 
-- **5 年 Vue 技术栈深耕经验**，核心聚焦 3D 编辑器、AI 功能与 Shopify 定制化交付。
-- 擅长将前端技术与业务结合，兼顾技术优化、用户体验与客户需求。
-- 具备团队管理与跨部门协作经验，服务过 **10+ 海外客户**。
+- **5 年 Vue 技术栈深耕经验**，核心聚焦 Pacdora 公司 3D 编辑器、AI 功能、shopify等关键项目，具备从 0 到 1 搭建复杂项目与定制化交付能力
+- 擅长将前端技术与业务结合，兼顾技术优化、用户体验与客户需求，同时持续探索 **AI 与前端融合创新**
+- 具备 **团队管理与跨部门协作经验**，服务过 **10+ 海外客户**，客户满意度 95%+
+- 严谨务实，注重效率与结果，期待为技术驱动型团队贡献核心价值
+
 `;
 
 const App = () => {
-  const [md, setMd] = useState(localStorage.getItem('resume_md') || DEFAULT_MD);
+  const [md, setMd] = useState(DEFAULT_MD);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const { scrollY } = useScroll();
