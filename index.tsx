@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { createRoot } from 'react-dom/client';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Edit3, 
-  Download, 
-  X, 
+import {
+  Edit3,
+  Download,
+  X,
   Save,
   User,
   Briefcase,
@@ -12,6 +12,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { marked } from 'marked';
+import './index.css';
 
 // Default resume content in Markdown
 const DEFAULT_MD = `# 翁露婷 - 前端开发工程师
