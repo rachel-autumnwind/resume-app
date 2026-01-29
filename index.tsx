@@ -387,6 +387,27 @@ const App = () => {
           </motion.div>
         </motion.div>
 
+        {/* Profile Photo */}
+        <motion.div
+          className="absolute top-16 right-8 md:right-12"
+          initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+          animate={{ opacity: 1, scale: 1, rotate: 0 }}
+          transition={{ delay: 0.3, duration: 0.8, type: "spring" }}
+        >
+          <motion.div
+            whileHover={{ scale: 1.05, rotate: 2 }}
+            transition={{ duration: 0.3 }}
+            className="relative"
+          >
+            <div className="absolute -inset-1 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl blur-sm opacity-50"></div>
+            <img
+              src={`${import.meta.env.BASE_URL}img/photo.png`}
+              alt="Profile Photo"
+              className="relative w-32 h-40 md:w-36 md:h-44 object-cover rounded-2xl border-4 border-white"
+            />
+          </motion.div>
+        </motion.div>
+
         <div className="resume-container prose prose-slate max-w-none">
           {sections.map((section, index) => (
             <motion.div
