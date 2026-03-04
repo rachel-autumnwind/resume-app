@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import { motion, AnimatePresence, useScroll, useTransform, useSpring } from 'framer-motion';
 import {
   Edit3,
@@ -96,6 +98,8 @@ const App = () => {
   const [md, setMd] = useState(defaultResumeMd);
   const [isEditing, setIsEditing] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
+  const resumeRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
 
   // Parallax effect for header
@@ -150,6 +154,13 @@ const App = () => {
     window.print();
   };
 
+  const handleDownloadPDF = () => {
+    const link = document.createElement('a');
+    link.href = '/resume.pdf';
+    link.download = '翁露婷-5年前端.pdf';
+    link.click();
+  };
+
   return (
     <div className="min-h-screen pb-20 relative">
       <AnimatedBackground />
@@ -159,25 +170,28 @@ const App = () => {
       {/* Floating Controls */}
       <div className="fixed bottom-8 right-8 flex flex-col gap-4 no-print z-50">
         <motion.button
-          initial={{ scale: 0, rotate: -180 }}
-          animate={{ scale: 1, rotate: 0 }}
+          initial={{ scale: 0, x: 60 }}
+          animate={{ scale: 1, x: 0 }}
           transition={{ delay: 1, type: "spring", stiffness: 200 }}
           whileHover={{
-            scale: 1.15,
+            scale: 1.05,
             boxShadow: "0 0 25px rgba(59, 130, 246, 0.5)",
-            rotate: 5
           }}
-          whileTap={{ scale: 0.95, rotate: -5 }}
-          onClick={handlePrint}
-          className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-full shadow-xl flex items-center justify-center transition-all relative overflow-hidden group"
+          whileTap={{ scale: 0.95 }}
+          onClick={handleDownloadPDF}
+          disabled={isGeneratingPDF}
+          className="px-5 h-12 bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-full shadow-xl flex items-center gap-2.5 transition-all relative overflow-hidden group disabled:opacity-70 disabled:cursor-not-allowed"
         >
           <motion.div
             className="absolute inset-0 bg-white"
             initial={{ scale: 0, opacity: 0 }}
-            whileHover={{ scale: 2, opacity: 0.2 }}
+            whileHover={{ scale: 2, opacity: 0.15 }}
             transition={{ duration: 0.4 }}
           />
-          <Download size={22} className="relative z-10" />
+          <Download size={18} className="relative z-10" />
+          <span className="relative z-10 text-sm font-semibold tracking-wide">
+            {isGeneratingPDF ? '生成中...' : '下载 PDF'}
+          </span>
         </motion.button>
       </div>
 
@@ -229,6 +243,7 @@ const App = () => {
 
       {/* Resume View */}
       <motion.div
+        ref={resumeRef}
         className="max-w-4xl mx-auto px-8 py-16 md:py-24 relative"
         initial={{ opacity: 0 }}
         animate={{ opacity: isLoaded ? 1 : 0 }}

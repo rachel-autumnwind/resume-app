@@ -7,7 +7,7 @@ export default defineConfig(({ mode }) => {
     return {
       base: '/resume-app/',
       server: {
-        port: 3000,
+        port: 5000,
         host: '0.0.0.0',
       },
       plugins: [react()],
